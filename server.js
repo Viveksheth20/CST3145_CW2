@@ -37,7 +37,7 @@ app.get('/orders', async (req, res, next)=> {
   });
   res.json(connect);
 });
-app.get('/orders', async (req, res, next)=> {
+app.post('/orders', async (req, res, next)=> {
   await client.connect();
   const OrdersToInsert = req.body;
   const connect = await ord_collection.insertOne(OrdersToInsert,function (err, results) {
