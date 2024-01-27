@@ -50,7 +50,7 @@ app.post('/orders', async (req, res, next) => {
 });
 const fs = require('fs');
 app.get('/images/:imageName', (req, res, next) => {
-  const imagePath = path.join(__dirname, './images', req.params.imageName);
+  const imagePath = path.join(__dirname, './Images', req.params.imageName);
 
   // Check if the file exists
   fs.access(imagePath, fs.constants.F_OK, (error) => {
