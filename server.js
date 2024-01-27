@@ -14,7 +14,7 @@ const prd_collection = db.collection("lessons");
 const ord_collection = db.collection("orders");
 
 app.get('/', function (req, res, next) {
-  res.send('select a collection, e.g., /collection/products')
+  res.send('select a collection, e.g., /products')
 });
 
 app.get('/lessons', async (req, res, next)=> {
