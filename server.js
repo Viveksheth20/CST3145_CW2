@@ -10,14 +10,14 @@ const dbName = "Study_Modules";
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const client = new MongoClient(uri,{serverApi:ServerApiVersion.v1});
 let db = client.db(dbName);
-const prd_collection = db.collection("products");
+const prd_collection = db.collection("lessons");
 const ord_collection = db.collection("orders");
 
 app.get('/', function (req, res, next) {
   res.send('select a collection, e.g., /collection/products')
 });
 
-app.get('/products', async (req, res, next)=> {
+app.get('/lessons', async (req, res, next)=> {
   await client.connect();
   const connect = await prd_collection.find({}).toArray(function (err, results) {
     if (err) {
