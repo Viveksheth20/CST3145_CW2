@@ -49,7 +49,7 @@ app.get('/orders', async (req, res, next)=> {
   res.json(connect);
 });
 
-const post = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log("server is listening on 3000");
+  console.log("server is listening on "+ port);
 });
