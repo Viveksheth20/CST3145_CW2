@@ -8,7 +8,7 @@ const uri = `mongodb+srv://studymodule:${dbpass}@cluster0.brnmkmi.mongodb.net/?r
 const dbName = "Study_Modules";
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-const client = new MongoClient(uri,{serverApi:ServerApiVersion.v1});
+const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
 let db = client.db(dbName);
 const prd_collection = db.collection("lessons");
 const ord_collection = db.collection("orders");
@@ -17,7 +17,7 @@ app.get('/', function (req, res, next) {
   res.send('select a collection, e.g., /products')
 });
 
-app.get('/lessons', async (req, res, next)=> {
+app.get('/lessons', async (req, res, next) => {
   await client.connect();
   const connect = await prd_collection.find({}).toArray(function (err, results) {
     if (err) {
@@ -27,7 +27,7 @@ app.get('/lessons', async (req, res, next)=> {
   });
   res.json(connect);
 });
-app.get('/orders', async (req, res, next)=> {
+app.get('/orders', async (req, res, next) => {
   await client.connect();
   const connect = await ord_collection.find({}).toArray(function (err, results) {
     if (err) {
@@ -37,10 +37,10 @@ app.get('/orders', async (req, res, next)=> {
   });
   res.json(connect);
 });
-app.post('/orders', async (req, res, next)=> {
+app.post('/orders', async (req, res, next) => {
   await client.connect();
   const OrdersToInsert = req.body;
-  const connect = await ord_collection.insertOne(OrdersToInsert,function (err, results) {
+  const connect = await ord_collection.insertOne(OrdersToInsert, function (err, results) {
     if (err) {
       return next(err);
     }
@@ -48,8 +48,27 @@ app.post('/orders', async (req, res, next)=> {
   });
   res.json(connect);
 });
+const fs = require('fs');
+app.get('/images/:imageName', (req, res, next) => {
+  const imagePath = path.join(__dirname, './images', req.params.imageName);
+
+  // Check if the file exists
+  fs.access(imagePath, fs.constants.F_OK, (error) => {
+    if (error) {
+      res.status(404).send('Image not found');
+    } else {
+      res.sendFile(imagePath);
+    }
+  });
+});
+
+app.use((req, res, next) => {
+  const { method, originalUrl, protocol } = req;
+  console.log(`${method} ${originalUrl} - ${protocol}://${req.get('host')}${req.originalUrl}]\n`);
+  next();
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log("server is listening on "+ port);
+  console.log("server is listening on " + port);
 });
