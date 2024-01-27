@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require('fs');
 const app = express();
 const cors = require("cors");
 app.use(cors());
@@ -48,14 +49,13 @@ app.post('/orders', async (req, res, next) => {
   });
   res.json(connect);
 });
-const fs = require('fs');
-app.get('/images/:imageName', (req, res, next) => {
+app.get('/Images/:imageName', (req, res, next) => {
   const imagePath = path.join(__dirname, './Images', req.params.imageName);
 
   // Check if the file exists
   fs.access(imagePath, fs.constants.F_OK, (error) => {
     if (error) {
-      res.status(404).send('Image not found');
+      res.status(404).send('not found');
     } else {
       res.sendFile(imagePath);
     }
