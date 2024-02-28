@@ -29,6 +29,17 @@ app.get('/lessons', async (req, res, next) => {
   });
   res.json(connect);
 });
+app.post('/lessons', async (req, res, next) => {
+  await client.connect();
+  const OrdersToInsert = req.body;
+  const connect = await prd_collection.insertOne(OrdersToInsert, function (err, results) {
+    if (err) {
+      return next(err);
+    }
+    res.send(results);
+  });
+  res.json(connect);
+});
 app.get('/orders', async (req, res, next) => {
   await client.connect();
   const connect = await ord_collection.find({}).toArray(function (err, results) {
